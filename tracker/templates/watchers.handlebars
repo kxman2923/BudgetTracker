@@ -1,0 +1,75 @@
+{{> navbar}}
+<style>
+    body {
+        background-color: black;
+    }
+
+    .center {
+        text-align: center;
+    }
+</style>
+<script>
+    $(document).ready(function() {
+        {{#each nice_watchers}}
+        {{#if this._id}}
+            $("#{{../_id}}remove").click(function() {
+                removeWatcher("{{../../_id}}", "{{../_id}}", function(data) {
+                    getBudget("{{../../_id}}", function(budget) {
+                        view_watchers(budget);
+                    });
+                });
+            });
+        {{/if}}
+        {{/each}}
+
+        $("#addWatcher").click(function() {
+            var username = $("#username").val();
+            addWatcher("{{this._id}}", username, function(budget) {
+                if(budget.err) {
+                    $("#username").val("No User of that name!");
+                } else {
+                    view_watchers(budget);
+                }
+            });
+        });
+        $("#cancel").click(function() {
+            getBudget("{{_id}}", function(budget) {
+                view_costs(budget);
+            });
+        });
+    });
+</script>
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-4" />
+        <div class="col-md-4">
+            <h2 class="center">Watchers</h2>
+            <table class="table table-bordered">
+                <tr class="active">
+                    <td>Full Name</td>
+                    <td>Email</td>
+                    <td>Username</td>
+                </tr>
+                {{#each nice_watchers}}
+                {{#if this._id}}
+                    <tr>
+                        <td>{{fullName}}</td>
+                        <td>{{email}}</td>
+                        <td>{{username}}</td>
+                        {{#if ../../isAdmin}}
+                            <td>
+                                <button class="btn btn-sm btn-danger" id="{{this._id}}remove">&times;</button>
+                            </td>
+                        {{/if}}
+                    </tr>
+                {{/if}}
+                {{/each}}
+            </table>
+            {{#if isAdmin}}
+                <input type="text" class="form-control" id="username" placeholder="New Watcher">
+                <button class="btn btn-success" id="addWatcher">Add Watcher</button>
+                <button class="btn btn-danger" id="cancel">Cancel</button>
+            {{/if}}
+        </div>
+        <div class="col-md-4" />
+</div>

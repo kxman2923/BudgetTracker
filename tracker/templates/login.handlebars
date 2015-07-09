@@ -1,0 +1,66 @@
+<style>
+    #brand {
+        text-align: center;
+    }
+
+    body {
+        background-color: black;
+    }
+</style>
+<script>
+    $(document).ready(function() {
+        $("#login").click(function() {
+            var uname = $("#username").val();
+            var pass = $("#password").val();
+            login(uname, pass, function(user) {
+                if(user.err) {
+                    view_login({failed: true, msg: user.err});
+                } else {
+                    view_budgets(user);
+                }
+            });
+        });
+        $("#create").click(function() {
+            var fname = $("#new_fullname").val();
+            var email = $("#new_email").val();
+            var uname = $("#new_username").val();
+            var pass = $("#new_password").val();
+            addUser(uname, pass, email, fname, function(user) {
+                if(user.err) {
+                    view_login({failed: true, msg: user.err});
+                } else {
+                    view_budgets(user);
+                }
+            });
+        });
+    });
+</script>
+<div class="jumbotron">
+    {{#if failed}}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <strong>Warning!</strong> {{msg}}
+        </div>
+    {{/if}}
+    <div class="page-header"><h1 id="brand">&lt;/tracker&gt;</h1></div>
+    <div class="row">
+        <div class="col-md-3" />
+        <div class="col-md-3">
+            <div class="form-group">
+                <input type='text' class="form-control" id="username" placeholder="Username">
+                <input type='password' class="form-control" id="password" placeholder="Password">
+                <button class="btn btn-success" id="login">Login</button>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <input type='text' class="form-control" id="new_fullname" placeholder="Full Name">
+                <input type='text' class="form-control" id="new_email" placeholder="Email">
+                <input type='text' class="form-control" id="new_username" placeholder="Username">
+                <input type='password' class="form-control" id="new_password" placeholder="Password">
+                <button class="btn btn-warning" id="create">Create</button>
+            </div>
+        </div>
+        <div class="col-md-3" />
+    </div>
+</div>
