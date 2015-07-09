@@ -1,0 +1,44 @@
+{{> navbar}}
+<style>
+    body {
+        background-color: black;
+    }
+</style>
+<script>
+    $(document).ready(function() {
+        $("#add").click(function() {
+            var name = $("#name").val();
+            var value = $("#value").val();
+            var time = $("#time").val();
+            var tag = $("#tag").val();
+            var desc = $("#desc").val();
+            addCost("{{bid}}", name, value, time, tag, desc, function(cost) {
+                getBudget("{{bid}}", function(budget) {
+                    view_costs(budget);
+                });
+            });
+        });
+        $("#cancel").click(function() {
+            getBudget("{{bid}}", function(budget) {
+                view_costs(budget);
+            });
+        });
+    });
+</script>
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-4" />
+        <div class="col-md-4">
+            <h1>New Cost</h1>
+            <div form-group>
+                <input type="text" class="form-control" id="name" placeholder="Name">
+                <input type="text" class="form-control" id="value" placeholder="Value">
+                <input type="text" class="form-control" id="time" placeholder="Time">
+                <input type="text" class="form-control" id="tag" placeholder="Tag">
+                <textarea class="form-control" id="desc" placeholder="Description" />
+                <button id="add" class="btn btn-success">Add Cost</button><button id="cancel" class="btn btn-danger">Cancel</button>
+            </div>
+        </div>
+        <div class-"col-md-4" />
+    </div>
+</div>

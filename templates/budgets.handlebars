@@ -1,0 +1,76 @@
+{{> navbar}}
+<style>
+    body {
+        background-color: black;
+    }
+</style>
+<script>
+    $(document).ready(function() {
+        $("#addBudget").click(function() {
+            view_add_budget();
+        });
+        {{#each moderated}}
+            {{#if _id}}
+                $("#{{_id}} #view").click(function() {
+                    getBudget("{{_id}}", function(budget) {
+                        view_costs(budget);
+                    });
+                });
+                $("#{{_id}} #delete").click(function() {
+                    deleteBudget("{{_id}}", function(data) {
+                        getUser(function(user) {
+                            view_budgets(user);
+                        });
+                    });
+                });
+            {{/if}}
+        {{/each}}
+        {{#each watched}}
+            {{#if _id}}
+                $("#{{_id}} #view").click(function() {
+                    getBudget("{{_id}}", function(budget) {
+                        view_costs(budget);
+                    });
+                });
+            {{/if}}
+        {{/each}}
+    });
+</script>
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-3"><h2>Moderated</h2></div>
+                <div class="col-md-3"><br><button id="addBudget" class="btn btn-sm btn-success">&plus;</button></div>
+            </div>
+            {{#each moderated}}
+            {{#if _id}}
+                <div class="row" id="{{_id}}">
+                    <div class="col-md-3"><h3>{{name}}</h3></div>
+                    <div class="col-md-3" />
+                    <div class="col-md-3">
+                        <br>
+                        <button id="view" class="btn btn-sm btn-warning">View</button>
+                        <button id="delete" class="btn btn-sm btn-danger">&times;</button>
+                    </div>
+                </div>
+            {{/if}}
+            {{/each}}
+        </div>
+        <div class="col-md-6">
+            <h2>Watched</h2>
+            {{#each watched}}
+            {{#if _id}}
+                <div class="row" id="{{_id}}">
+                    <div class="col-md-3"><h3>{{name}}</h3></div>
+                    <div class="col-md-3" />
+                    <div class="col-md-3">
+                        <br>
+                        <button id="view" class="btn btn-sm btn-warning">View</button>
+                    </div>
+                </div>
+            {{/if}}
+            {{/each}}
+        </div>
+    </div>
+</div>
